@@ -4,42 +4,40 @@ import Image from "next/image";
 import Topbar from "@/components/topbar/topbar";
 import Description from "@/components/topbar/description";
 
-const {
-  GoogleGenerativeAI,
-  HarmCategory,
-  HarmBlockThreshold,
-} = require("@google/generative-ai");
-
-const apiKey = "AIzaSyALgrBDyepyU7cKVKIkqAWwyeu9qn2OltI";
-const genAI = new GoogleGenerativeAI(apiKey);
-
-const model = genAI.getGenerativeModel({
-  model: "gemini-1.5-flash",
-});
-
-const generationConfig = {
-  temperature: 1,
-  topP: 0.95,
-  topK: 64,
-  maxOutputTokens: 8192,
-  responseMimeType: "text/plain",
-};
-
-async function run(input) {
-  const chatSession = model.startChat({
-    generationConfig,
- // safetySettings: Adjust safety settings
- // See https://ai.google.dev/gemini-api/docs/safety-settings
-    history: [
-    ],
-  });
-
-  const result = await chatSession.sendMessage(`Act as a medical doctor and tell about the potential disease with symptoms. Don't ask questions. You should entertain only questions related to medical and nothing out of context. Don't use bold, italic, stars or any other in text. Keep the whole text in normal format. Question is : ${input}`);
-  console.log(result.response.text());
-  return result.response.text();
-}
-
 export default function Home() {
+
+  const {
+    GoogleGenerativeAI,
+  } = require("@google/generative-ai");
+  
+  const apiKey = "AIzaSyALgrBDyepyU7cKVKIkqAWwyeu9qn2OltI";
+  const genAI = new GoogleGenerativeAI(apiKey);
+  
+  const model = genAI.getGenerativeModel({
+    model: "gemini-1.5-flash",
+  });
+  
+  const generationConfig = {
+    temperature: 1,
+    topP: 0.95,
+    topK: 64,
+    maxOutputTokens: 8192,
+    responseMimeType: "text/plain",
+  };
+  
+  async function run(input) {
+    const chatSession = model.startChat({
+      generationConfig,
+   // safetySettings: Adjust safety settings
+   // See https://ai.google.dev/gemini-api/docs/safety-settings
+      history: [
+      ],
+    });
+  
+    const result = await chatSession.sendMessage(`Act as a medical doctor and tell about the potential disease with symptoms. Don't ask questions. You should entertain only questions related to medical and nothing out of context. Don't use bold, italic, stars or any other in text. Keep the whole text in normal format. Question is : ${input}`);
+    console.log(result.response.text());
+    return result.response.text();
+  }
 
     const [inputValue, setinputValue] = useState('');
     const [responseText, setResponseText] = useState('');

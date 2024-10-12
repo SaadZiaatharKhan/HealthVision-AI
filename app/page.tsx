@@ -1,6 +1,5 @@
 "use client"
 import React, { useState } from 'react';
-import Image from "next/image";
 import Topbar from "@/components/topbar/topbar";
 import Description from "@/components/topbar/description";
 import Personal_Diagnosis from '@/components/personal_diagnosis/personal_diagnosis';

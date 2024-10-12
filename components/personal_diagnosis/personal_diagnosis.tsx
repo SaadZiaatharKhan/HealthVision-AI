@@ -42,7 +42,7 @@ const safetySettings = [
         ],
       });
     
-      const result = await chatSession.sendMessage(`Act as a medical doctor and tell about the potential disease with symptoms. Don't ask questions. You should entertain only questions related to medical and nothing out of context. Don't use bold, italic, stars or any other in text. Keep the whole text in normal format. Question is : ${input}`);
+      const result = await chatSession.sendMessage(`Act as a medical doctor and tell about the potential disease with symptoms. Also recommend remedy. Don't ask questions. You should entertain only questions related to medical and nothing out of context. Don't use bold, italic, stars or any other in text. Keep the whole text in normal format. Question is : ${input}`);
       console.log(result.response.text());
       return result.response.text();
     }
@@ -71,7 +71,23 @@ const Personal_Diagnosis = () => {
 </div>
 <div className='relative h-14 w-11/12 p-1 m-1 rounded-full border-white border-2 backdrop-opacity-5 backdrop-invert bg-white/30 text-black placeholder:text-gray-900'>
 
-<button className='absolute bottom-0 right-6 sm:right-20 z-10 h-8 w-8'><Image src="/assets/images/link.svg" height={50} width={50} alt='image'></Image></button>
+<button className="absolute bottom-0 right-6 sm:right-20 z-10 h-8 w-8">
+          <label htmlFor="photo-upload">
+            <Image
+              src="/assets/images/link.svg"
+              height={50}
+              width={50}
+              alt="Upload image"
+              className="cursor-pointer"
+            />
+          </label>
+          <input
+            type="file"
+            id="photo-upload"
+            className="hidden"
+            accept="image/*"
+          />
+        </button>
 
 <input
 type="text"

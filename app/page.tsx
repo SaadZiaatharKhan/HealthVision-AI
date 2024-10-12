@@ -20,7 +20,7 @@ const apiKey = "AIzaSyALgrBDyepyU7cKVKIkqAWwyeu9qn2OltI";
     responseMimeType: "text/plain",
   };
   
-  async function run(input) {
+  async function run(input:string) {
     const chatSession = model.startChat({
       generationConfig,
    // safetySettings: Adjust safety settings
@@ -39,13 +39,13 @@ export default function Home() {
     const [inputValue, setinputValue] = useState('');
     const [responseText, setResponseText] = useState('');
 
-    const InputText = (event) => {
+    const InputText = (event: { target: { value: string; }; }) => {
       setinputValue(event.target.value.replace("*", ""));
     }
 
     const handleSend = async() => {
       setinputValue('');
-      setResponseText(run(inputValue)); // Update the state with the response text
+      setResponseText(await run(inputValue)); // Update the state with the response text
       } 
     
 

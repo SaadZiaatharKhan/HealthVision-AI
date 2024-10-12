@@ -10,7 +10,7 @@ import About from '@/components/about/about';
 
 export default function Home() {
 
-    const [display,setdisplay]=useState('Personal_Diagnosis');
+    const [display,setdisplay]=useState('Personal Diagnosis');
     
     const Display_Personal_Diagnosis = () => {
       setdisplay('Personal Diagnosis');

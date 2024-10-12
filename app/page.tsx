@@ -1,101 +1,98 @@
+"use client"
+import React, { useState } from 'react';
 import Image from "next/image";
+import Topbar from "@/components/topbar/topbar";
+import Description from "@/components/topbar/description";
+
+const {
+  GoogleGenerativeAI,
+  HarmCategory,
+  HarmBlockThreshold,
+} = require("@google/generative-ai");
+
+const apiKey = "AIzaSyALgrBDyepyU7cKVKIkqAWwyeu9qn2OltI";
+const genAI = new GoogleGenerativeAI(apiKey);
+
+const model = genAI.getGenerativeModel({
+  model: "gemini-1.5-flash",
+});
+
+const generationConfig = {
+  temperature: 1,
+  topP: 0.95,
+  topK: 64,
+  maxOutputTokens: 8192,
+  responseMimeType: "text/plain",
+};
+
+async function run(input) {
+  const chatSession = model.startChat({
+    generationConfig,
+ // safetySettings: Adjust safety settings
+ // See https://ai.google.dev/gemini-api/docs/safety-settings
+    history: [
+    ],
+  });
+
+  const result = await chatSession.sendMessage(`Act as a medical doctor and tell about the potential disease with symptoms. Don't ask questions. You should entertain only questions related to medical and nothing out of context. Don't use bold, italic, stars or any other in text. Keep the whole text in normal format. Question is : ${input}`);
+  console.log(result.response.text());
+  return result.response.text();
+}
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    const [inputValue, setinputValue] = useState('');
+    const [responseText, setResponseText] = useState('');
+
+    const InputText = (event) => {
+      setinputValue(event.target.value.replace("*", ""));
+    }
+
+    const handleSend = async() => {
+      setinputValue('');
+      setResponseText(run(inputValue)); // Update the state with the response text
+      } 
+    
+
+  return (
+    <div className="h-screen w-screen h-14 bg-gradient-to-br from-green-500 to-blue-500 overflow-x-hidden">
+    <Topbar/>
+    <Description/>
+    <div className="flex">
+      <div className="flex justify-between items-center flex-col w-1/5 h-60 p-1 m-1 rounded-lg border-white border-2 backdrop-opacity-10 backdrop-invert bg-green-500/20">
+        <button className="border-none rounded-full border-2 p-1 m-1 hover:backdrop-blur-md hover:bg-white/30"><div>Personal Diagnosis</div></button>
+        <button className="border-none rounded-full border-2 p-1 m-1 hover:backdrop-blur-md hover:bg-white/30"><div>Synthetic Medical Data</div></button>
+        <button className="border-none rounded-full border-2 p-1 m-1 hover:backdrop-blur-md hover:bg-white/30"><div>Contact Doctors</div></button>
+        <button className="border-none rounded-full border-2 p-1 m-1 hover:backdrop-blur-md hover:bg-white/30"><div>Library</div></button>
+        <button className="border-none rounded-full border-2 p-1 m-1 hover:backdrop-blur-md hover:bg-white/30"><div>About</div></button>
+      </div>
+      <div className=" h-screen w-4/5 p-1 m-1 rounded-lg border-white border-2 backdrop-opacity-5 backdrop-invert bg-white/20 flex flex-col justify-center items-center">
+
+        <div className="relative h-5/6 w-11/12 p-1 m-1 rounded-lg border-white border-2 backdrop-opacity-5 backdrop-invert bg-white/30">
+
+          <div className='absolute left-1 border-gray-400 border-2 bg-gray-400 rounded-md flex justify-center items-center h-auto w-auto'>{responseText}</div>
+
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        <div className='relative h-14 w-11/12 p-1 m-1 rounded-full border-white border-2 backdrop-opacity-5 backdrop-invert bg-white/30 text-black placeholder:text-gray-900'>
+
+        <button className='absolute bottom-0 right-20 z-10'><Image src="/assets/images/link.svg" height={50} width={50} alt='image'></Image></button>
+
+        <input
+        type="text"
+        value={inputValue}
+        className="absolute h-14 w-11/12 rounded-full border-none backdrop-opacity-5 backdrop-invert bg-white/30 text-black placeholder:text-gray-900 top-0 left-0"
+        placeholder="How Are You Feeling Today?"
+        id='prompt'
+        onChange={InputText}
+      />
+      <button 
+      className='absolute bottom-0 right-0 z-10'
+      onClick={handleSend}><Image src="/assets/images/send.svg" height={50} width={50} alt='image'></Image></button>
+      </div>
+        </div>
+        
     </div>
+    <span className='text-red-700'>Always consult a medical professional before making any medical decisions.</span>
+    </div>  
   );
 }

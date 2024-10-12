@@ -3,14 +3,9 @@ import React, { useState } from 'react';
 import Image from "next/image";
 import Topbar from "@/components/topbar/topbar";
 import Description from "@/components/topbar/description";
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
-export default function Home() {
-
-  const {
-    GoogleGenerativeAI,
-  } = require("@google/generative-ai");
-  
-  const apiKey = "AIzaSyALgrBDyepyU7cKVKIkqAWwyeu9qn2OltI";
+const apiKey = "AIzaSyALgrBDyepyU7cKVKIkqAWwyeu9qn2OltI";
   const genAI = new GoogleGenerativeAI(apiKey);
   
   const model = genAI.getGenerativeModel({
@@ -25,7 +20,7 @@ export default function Home() {
     responseMimeType: "text/plain",
   };
   
-  async function run(input) {
+  async function run(input:any) {
     const chatSession = model.startChat({
       generationConfig,
    // safetySettings: Adjust safety settings
@@ -39,10 +34,12 @@ export default function Home() {
     return result.response.text();
   }
 
+export default function Home() {
+
     const [inputValue, setinputValue] = useState('');
     const [responseText, setResponseText] = useState('');
 
-    const InputText = (event) => {
+    const InputText = (event:any) => {
       setinputValue(event.target.value.replace("*", ""));
     }
 

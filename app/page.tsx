@@ -20,7 +20,7 @@ const apiKey = "AIzaSyALgrBDyepyU7cKVKIkqAWwyeu9qn2OltI";
     responseMimeType: "text/plain",
   };
   
-  async function run(input:any) {
+  async function run(input) {
     const chatSession = model.startChat({
       generationConfig,
    // safetySettings: Adjust safety settings
@@ -39,7 +39,7 @@ export default function Home() {
     const [inputValue, setinputValue] = useState('');
     const [responseText, setResponseText] = useState('');
 
-    const InputText = (event:any) => {
+    const InputText = (event) => {
       setinputValue(event.target.value.replace("*", ""));
     }
 

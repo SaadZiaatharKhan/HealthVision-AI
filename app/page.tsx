@@ -3,91 +3,75 @@ import React, { useState } from 'react';
 import Image from "next/image";
 import Topbar from "@/components/topbar/topbar";
 import Description from "@/components/topbar/description";
-import { GoogleGenerativeAI } from '@google/generative-ai';
-
-const apiKey = "AIzaSyALgrBDyepyU7cKVKIkqAWwyeu9qn2OltI";
-  const genAI = new GoogleGenerativeAI(apiKey);
-  
-  const model = genAI.getGenerativeModel({
-    model: "gemini-1.5-flash",
-  });
-  
-  const generationConfig = {
-    temperature: 1,
-    topP: 0.95,
-    topK: 64,
-    maxOutputTokens: 8192,
-    responseMimeType: "text/plain",
-  };
-  
-  async function run(input:string) {
-    const chatSession = model.startChat({
-      generationConfig,
-   // safetySettings: Adjust safety settings
-   // See https://ai.google.dev/gemini-api/docs/safety-settings
-      history: [
-      ],
-    });
-  
-    const result = await chatSession.sendMessage(`Act as a medical doctor and tell about the potential disease with symptoms. Don't ask questions. You should entertain only questions related to medical and nothing out of context. Don't use bold, italic, stars or any other in text. Keep the whole text in normal format. Question is : ${input}`);
-    console.log(result.response.text());
-    return result.response.text();
-  }
+import Personal_Diagnosis from '@/components/personal_diagnosis/personal_diagnosis';
+import Synthetic_Medical_Data from '@/components/synthetic_medical_data/synthetic_medical_data';
+import Contact_Doctors from '@/components/contact_doctors/contact_doctors';
+import Library from '@/components/library/library';
+import About from '@/components/about/about';
 
 export default function Home() {
 
-    const [inputValue, setinputValue] = useState('');
-    const [responseText, setResponseText] = useState('');
-
-    const InputText = (event: { target: { value: string; }; }) => {
-      setinputValue(event.target.value.replace("*", ""));
+    const [display,setdisplay]=useState('Personal_Diagnosis');
+    
+    const Display_Personal_Diagnosis = () => {
+      setdisplay('Personal Diagnosis');
+      
     }
 
-    const handleSend = async() => {
-      setinputValue('');
-      setResponseText(await run(inputValue)); // Update the state with the response text
-      } 
-    
+    const Display_Synthetic_Medical_Data = () => {
+      setdisplay('Synthetic Medical Data');
+      
+    }
+
+    const Display_Contact_Doctors = () => {
+      setdisplay('Contact Doctors');
+      
+    }
+
+    const Display_Library = () => {
+      setdisplay('Library');
+      
+    }
+
+    const Display_About = () => {
+      setdisplay('About');
+      
+    }
 
   return (
+
     <div className="h-screen w-screen h-14 bg-gradient-to-br from-green-500 to-blue-500 overflow-x-hidden">
     <Topbar/>
     <Description/>
     <div className="flex">
       <div className="flex justify-between items-center flex-col w-1/5 h-60 p-1 m-1 rounded-lg border-white border-2 backdrop-opacity-10 backdrop-invert bg-green-500/20">
-        <button className="border-none rounded-full border-2 p-1 m-1 hover:backdrop-blur-md hover:bg-white/30"><div>Personal Diagnosis</div></button>
-        <button className="border-none rounded-full border-2 p-1 m-1 hover:backdrop-blur-md hover:bg-white/30"><div>Synthetic Medical Data</div></button>
-        <button className="border-none rounded-full border-2 p-1 m-1 hover:backdrop-blur-md hover:bg-white/30"><div>Contact Doctors</div></button>
-        <button className="border-none rounded-full border-2 p-1 m-1 hover:backdrop-blur-md hover:bg-white/30"><div>Library</div></button>
-        <button className="border-none rounded-full border-2 p-1 m-1 hover:backdrop-blur-md hover:bg-white/30"><div>About</div></button>
+        <button className={`border-none rounded-lg text-sm lg:text-xl border-2 p-1 m-1 hover:backdrop-blur-md hover:bg-white/30 ${
+          display === 'Personal Diagnosis' ? 'bg-blue-500' : 'bg-none'
+        }`} onClick={Display_Personal_Diagnosis}><div>Personal Diagnosis</div></button>
+        <button className={`border-none rounded-lg text-sm lg:text-xl border-2 sm:p-1 m-1 hover:backdrop-blur-md hover:bg-white/30 ${
+          display === 'Synthetic Medical Data' ? 'bg-blue-500' : 'bg-none'
+        }`} onClick={Display_Synthetic_Medical_Data}><div>Synthetic Medical Data</div></button>
+        <button className={`border-none rounded-lg text-sm lg:text-xl border-2 sm:p-1 m-1 hover:backdrop-blur-md hover:bg-white/30 ${
+          display === 'Contact Doctors' ? 'bg-blue-500' : 'bg-none'
+        }`} onClick={Display_Contact_Doctors}><div>Contact Doctors</div></button>
+        <button className={`border-none rounded-lg text-sm lg:text-xl  border-2 sm:p-1 m-1 hover:backdrop-blur-md hover:bg-white/30 ${
+          display === 'Library' ? 'bg-blue-500' : 'bg-none'
+        }`} onClick={Display_Library}><div>Library</div></button>
+        <button className={`border-none rounded-lg text-sm lg:text-xl border-2 sm:p-1 m-1 hover:backdrop-blur-md hover:bg-white/30 ${
+          display === 'About' ? 'bg-blue-500' : 'bg-none'
+        }`} onClick={Display_About}><div>About</div></button>
       </div>
-      <div className=" h-screen w-4/5 p-1 m-1 rounded-lg border-white border-2 backdrop-opacity-5 backdrop-invert bg-white/20 flex flex-col justify-center items-center">
 
-        <div className="relative h-5/6 w-11/12 p-1 m-1 rounded-lg border-white border-2 backdrop-opacity-5 backdrop-invert bg-white/30">
+      <div className=" h-screen w-4/5 p-1 m-1 rounded-lg border-white border-2 backdrop-opacity-5 backdrop-invert bg-white/20 flex flex-col justify-center items-center overflow-x-hidden overflow-y-scroll">
 
-          <div className='absolute left-1 border-gray-400 border-2 bg-gray-400 rounded-md flex justify-center items-center h-auto w-auto'>{responseText}</div>
-
-        </div>
-        <div className='relative h-14 w-11/12 p-1 m-1 rounded-full border-white border-2 backdrop-opacity-5 backdrop-invert bg-white/30 text-black placeholder:text-gray-900'>
-
-        <button className='absolute bottom-0 right-20 z-10'><Image src="/assets/images/link.svg" height={50} width={50} alt='image'></Image></button>
-
-        <input
-        type="text"
-        value={inputValue}
-        className="absolute h-14 w-11/12 rounded-full border-none backdrop-opacity-5 backdrop-invert bg-white/30 text-black placeholder:text-gray-900 top-0 left-0"
-        placeholder="How Are You Feeling Today?"
-        id='prompt'
-        onChange={InputText}
-      />
-      <button 
-      className='absolute bottom-0 right-0 z-10'
-      onClick={handleSend}><Image src="/assets/images/send.svg" height={50} width={50} alt='image'></Image></button>
+        {display === 'Personal Diagnosis' && <Personal_Diagnosis/>}
+        {display === 'Synthetic Medical Data' && <Synthetic_Medical_Data/>}
+        {display === 'Contact Doctors' && <Contact_Doctors/>}
+        {display === 'Library' && <Library/>}
+        {display === 'About' && <About/>}
       </div>
-        </div>
         
     </div>
-    <span className='text-red-700'>Always consult a medical professional before making any medical decisions.</span>
     </div>  
   );
 }

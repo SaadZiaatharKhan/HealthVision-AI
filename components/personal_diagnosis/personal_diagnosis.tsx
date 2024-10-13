@@ -42,7 +42,7 @@ const safetySettings = [
         ],
       });
     
-      const result = await chatSession.sendMessage(`Act as a medical doctor and tell about the potential disease with symptoms. Also recommend remedy. Don't ask questions. You should entertain only questions related to medical and nothing out of context. Don't use bold, italic, stars or any other in text. Keep the whole text in normal format. Question is : ${input}`);
+      const result = await chatSession.sendMessage(`Act as a medical doctor and tell about the potential disease with symptoms. Also recommend remedy. Don't ask questions. You should entertain only questions related to medical and nothing out of context. Give answer in HTML format and make effective use of tags such as b, br, p, ul, li, h1, h2, h3, etc. Make generated response in design using TailwindCSS style. Use white and black color only for text and don't change background color. Question is : ${input}`);
       console.log(result.response.text());
       return result.response.text();
     }
@@ -66,28 +66,10 @@ const Personal_Diagnosis = () => {
     <>
       <div className="relative h-5/6 w-11/12 p-1 m-1 rounded-lg border-white border-2 backdrop-opacity-5 backdrop-invert bg-white/30 overflow-x-hidden overflow-y-auto">
 
-<div className='absolute left-1 border-gray-400 border-2 bg-gray-400 rounded-md flex justify-center items-center h-auto w-auto'>{responseText}</div>
+<div className='absolute left-1 border-gray-400 border-2 bg-gray-400 rounded-md flex justify-center items-center h-auto w-auto sm:m-2 sm:p-2'><div dangerouslySetInnerHTML={{ __html: responseText }} /></div>
 
 </div>
 <div className='relative h-14 w-11/12 p-1 m-1 rounded-full border-white border-2 backdrop-opacity-5 backdrop-invert bg-white/30 text-black placeholder:text-gray-900'>
-
-<button className="absolute bottom-0 right-6 sm:right-20 z-10 h-8 w-8">
-          <label htmlFor="photo-upload">
-            <Image
-              src="/assets/images/link.svg"
-              height={50}
-              width={50}
-              alt="Upload image"
-              className="cursor-pointer"
-            />
-          </label>
-          <input
-            type="file"
-            id="photo-upload"
-            className="hidden"
-            accept="image/*"
-          />
-        </button>
 
 <input
 type="text"

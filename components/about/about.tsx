@@ -7,7 +7,7 @@ const About = () => {
   return (
     <>
 
-<div className="relative h-5/6 w-11/12 p-1 m-1 rounded-lg border-white border-2 backdrop-opacity-5 backdrop-invert bg-white/30 overflow-x-hidden overflow-y-auto">
+<div className="relative h-5/6 w-11/12 p-1 m-1 rounded-lg border-white border-2 backdrop-opacity-5 backdrop-invert bg-white/30 overflow-x-hidden overflow-y-auto text-white dark:text-white">
 
 <div className='border-gray-400 border-2 bg-gray-900 rounded-md flex flex-col justify-center items-center h-auto w-auto sm:text-xl text-xs m-1 p-1'>
         <div className='flex justify-center items-center flex-col p-2 m-1'>

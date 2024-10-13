@@ -1,5 +1,4 @@
 "use client";
-import React, { useState } from 'react';
 import { ShootingStars } from '../ui/shooting-stars';
 import { StarsBackground } from '../ui/stars-background';
 

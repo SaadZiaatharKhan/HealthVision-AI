@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { GoogleAIFileManager } from '@google/generative-ai/server';
-import { GoogleGenerativeAI,HarmBlockThreshold, HarmCategory } from '@google/generative-ai';
+import { GoogleGenerativeAI} from '@google/generative-ai';
 import { Buffer } from 'buffer';
 import fs from 'fs';
 import path from 'path';
@@ -53,6 +53,12 @@ export async function POST(req: Request) {
     }
   } catch (error) {
     console.error('Error analyzing the image:', error);
-    return NextResponse.json({ error: 'Error analyzing the image.', details: error.message }, { status: 500 });
+
+    // Type guard to check if error is an instance of Error
+    if (error instanceof Error) {
+      return NextResponse.json({ error: 'Error analyzing the image.', details: error.message }, { status: 500 });
+    } else {
+      return NextResponse.json({ error: 'An unknown error occurred.' }, { status: 500 });
+    }
   }
 }

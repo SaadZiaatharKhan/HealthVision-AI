@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Image from "next/image";
 import { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory } from '@google/generative-ai';
 
 const safetySettings = [

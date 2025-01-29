@@ -20,7 +20,7 @@ HealthVision AI is built to support healthcare professionals in diagnosing condi
 - Multimodal medical diagnosis (text and images).
 - Generating synthetic medical data for research and training.
 - Creating personalized treatment plans for patients.
-- 
+  
 It also aims to:
 
 - Enhance medical imaging analysis and natural language understanding.
@@ -30,7 +30,6 @@ It also aims to:
 ## Features
 
 - **Multimodal AI Diagnosis:** Combines text and image data to provide accurate medical diagnoses.
-
 - **Synthetic Data Generation:** Generates synthetic medical data for training purposes.
 - **Personalized Treatment Plans:** Suggests customized treatment plans based on patient history.
 - **Real-time Insights:** Offers instant diagnostic feedback to healthcare professionals.

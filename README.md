@@ -53,4 +53,5 @@ Once the application is running, you can:
 
 ## Note
 
-Many features are still in development.
+- Many features are still in development.
+- Don't rely on AI. Always consult a doctor.
